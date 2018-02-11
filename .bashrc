@@ -127,4 +127,4 @@ bind '"fd":vi-movement-mode'
 
 alias mysshfs="sshfs -o allow_other,defer_permissions"
 
-export PATH=$PATH:~/universal-ctags-build/bin
+export PATH=~/vim-build/bin:~/universal-ctags-build/bin:$PATH
