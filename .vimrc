@@ -15,6 +15,9 @@ Plugin 'VundleVim/Vundle.vim'
 " can't believe im using plugins just for this shit :(
 Plugin 'christoomey/vim-tmux-navigator'
 
+" plugin for extra colorschemes
+Plugin 'flazz/vim-colorschemes'
+
 call vundle#end()
 filetype plugin indent on
 " VUNDLE BS END
@@ -30,10 +33,10 @@ let g:tmux_navigator_save_on_switch = 2
 " set rtp+=~/.fzf
 " fzf plugin end
 
-set syntax=on
+syntax on
 set mouse=a
 set hlsearch
-colorscheme delek
+colorscheme molokai
 
 set number
 set relativenumber

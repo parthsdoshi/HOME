@@ -117,6 +117,7 @@ if ! shopt -oq posix; then
 fi
 
 # MY ADDITIONS
+
 # for tmux editing mode
 export EDITOR='vim'
 
@@ -125,6 +126,10 @@ set editing-mode vi
 set -o vi
 bind '"fd":vi-movement-mode'
 
+# binds sshfs to an easier commmand
 alias mysshfs="sshfs -o allow_other,defer_permissions"
+
+# shows vim where to look for its settings files
+export VIMRUNTIME=~/vim-build/share/vim/vim80
 
 export PATH=~/vim-build/bin:~/universal-ctags-build/bin:$PATH
