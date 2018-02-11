@@ -124,3 +124,7 @@ export EDITOR='vim'
 set editing-mode vi
 set -o vi
 bind '"fd":vi-movement-mode'
+
+alias mysshfs="sshfs -o allow_other,defer_permissions"
+
+export PATH=$PATH:~/universal-ctags-build/bin
