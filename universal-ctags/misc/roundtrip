@@ -1,0 +1,64 @@
+#!/bin/sh
+#
+#   Copyright (C) 2014 Masatake YAMATO
+#
+#   This program is free software; you can redistribute it and/or modify
+#   it under the terms of the GNU General Public License as published by
+#   the Free Software Foundation; either version 2 of the License, or
+#   (at your option) any later version.
+#
+#   This program is distributed in the hope that it will be useful,
+#   but WITHOUT ANY WARRANTY; without even the implied warranty of
+#   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#   GNU General Public License for more details.
+#
+#   You should have received a copy of the GNU General Public License
+#   along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+set -e
+
+# Avoid trouble with weird bytes on non-C locales
+export LC_ALL=C
+
+READTAGS=${1:-./readtags}
+UNITS=${2:-./Units}
+s=0
+
+if ! [ -f "${READTAGS}" ]; then
+    echo "No such file: ${READTAGS}" 1>&2
+    exit 1
+fi
+
+if ! [ -x "${READTAGS}" ]; then
+    echo "Not an executable: ${READTAGS}" 1>&2
+    exit 1
+fi
+
+if ! [ -x "${UNITS}" ]; then
+    echo "Not such directory: ${UNITS}" 1>&2
+    exit 1
+fi
+
+
+# disable path expansion, because we don't need it and it's applied on the
+# result of the commands used to loop on, and we don't want that.
+set -f
+# remove space from IFS as it's valid in tag names
+OLD_IFS="$IFS"
+IFS='
+'
+
+tagfiles=$(find "$UNITS" -name expected.tags)
+for tags in $tagfiles; do
+    tagnames=$(sed -e 's/^\([^	]*\)	.*/\1/' "$tags")
+    for name in $tagnames; do
+	if [ 1 -gt $("${READTAGS}" -t "$tags" - "$name" | wc -l) ]; then
+	    printf 'FAILED: "%s" -t "%s" - "%s"\n' "${READTAGS}" "$tags" "$name"
+	    s=1
+	fi
+    done
+done
+
+IFS="$OLD_IFS"
+
+exit $s
