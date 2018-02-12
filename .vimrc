@@ -52,6 +52,7 @@ set tabstop=4
 set shiftwidth=4
 set expandtab
 filetype plugin indent on
+set backspace=2
 " set iskeyword-=_
 
 set t_Co=256
