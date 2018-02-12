@@ -18,6 +18,9 @@ Plugin 'christoomey/vim-tmux-navigator'
 " plugin for extra colorschemes
 Plugin 'flazz/vim-colorschemes'
 
+" plugin for linting
+Plugin 'w0rp/ale'
+
 call vundle#end()
 filetype plugin indent on
 " VUNDLE BS END
@@ -52,3 +55,8 @@ filetype plugin indent on
 " set iskeyword-=_
 
 set t_Co=256
+
+" for ALE linting plugin
+let g:ale_linters = {
+\   'cpp': ['g++'],
+\}
