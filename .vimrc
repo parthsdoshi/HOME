@@ -64,3 +64,7 @@ set t_Co=256
 let g:ale_linters = {
 \   'cpp': ['g++'],
 \}
+
+" shortcut for ctags navigator plugin
+nnoremap <NUL> :TagbarToggle<CR>
+let g:tagbar_autofocus = 1
