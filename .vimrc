@@ -21,6 +21,9 @@ Plugin 'flazz/vim-colorschemes'
 " plugin for linting
 Plugin 'w0rp/ale'
 
+" plugin for ctags structure
+Plugin 'majutsushi/tagbar'
+
 call vundle#end()
 filetype plugin indent on
 " VUNDLE BS END
