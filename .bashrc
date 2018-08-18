@@ -57,7 +57,7 @@ if [ -n "$force_color_prompt" ]; then
 fi
 
 if [ "$color_prompt" = yes ]; then
-    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\W\[\033[00m\]\$ '
 else
     PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
 fi
@@ -94,7 +94,7 @@ alias l='ls -CF'
 
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
-alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
+# alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 
 # Alias definitions.
 # You may want to put all your additions into a separate file like
@@ -129,7 +129,24 @@ bind '"fd":vi-movement-mode'
 # binds sshfs to an easier commmand
 alias mysshfs="sshfs -o allow_other,defer_permissions"
 
-# shows vim where to look for its settings files
-export VIMRUNTIME=~/vim-build/share/vim/vim80
+# binds python3 to python
+# alias python=/usr/local/bin/python3
 
-export PATH=~/vim-build/bin:~/universal-ctags-build/bin:$PATH
+# shows vim where to look for its settings files
+# export VIMRUNTIME=~/vim-build/share/vim/vim80
+
+# export PATH=~/vim-build/bin:~/universal-ctags-build/bin:$PATH
+export PATH=~/universal-ctags-build/bin:~/Library/Python/3.6/bin:/Applications/VMware\ OVF\ Tool/:$PATH
+
+# for z
+. /usr/local/etc/profile.d/z.sh
+
+# for fzf
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow -g "!{.git,node_modules}/*" 2> /dev/null'
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+bind -x '"\C-p": vim $(fzf);'
+# binds default ctrl-t to ctrl-x ctrl-t
+# bind "$(bind -s | grep __fzf_select | sed 's/\\C-t/\\C-x\\C-t/')"
+# bind "$(bind -s | grep __fzf_select | sed 's/\\C-t/\\C-l/')"
+# bind '"\C-t": transpose-chars'
