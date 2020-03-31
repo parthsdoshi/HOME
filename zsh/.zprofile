@@ -1,0 +1,1 @@
+/Users/parthdoshi/.zprezto/runcoms/zprofile

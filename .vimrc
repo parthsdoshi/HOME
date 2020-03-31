@@ -1,47 +1,53 @@
 set nocompatible
 
-" VUNDLE BS
-filetype off
-
-" set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-" alternatively, pass a path where Vundle should install plugins
-" call vundle#begin('~/some/path/here')
-
-" let Vundle manage Vundle, required
-Plugin 'VundleVim/Vundle.vim'
+" initialize vim-plug
+call plug#begin('~/.vim/plugged')
 
 " can't believe im using plugins just for this shit :(
-Plugin 'christoomey/vim-tmux-navigator'
+Plug 'christoomey/vim-tmux-navigator'
 
 " plugin for extra colorschemes
-Plugin 'flazz/vim-colorschemes'
+Plug 'flazz/vim-colorschemes'
 
 " plugin for linting
-Plugin 'w0rp/ale'
+Plug 'dense-analysis/ale'
+"Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
+" for statusline
+Plug 'vim-airline/vim-airline'
 
 " plugin for ctags structure
-Plugin 'majutsushi/tagbar'
+Plug 'majutsushi/tagbar'
 
 " plugin for indent guides
-Plugin 'Yggdroot/indentLine'
+Plug 'Yggdroot/indentLine'
 
 " plugin for commenting
-Plugin 'scrooloose/nerdcommenter'
+Plug 'preservim/nerdcommenter'
 
 " plugin for repeating plugin functions
-Plugin 'tpope/vim-repeat'
+Plug 'tpope/vim-repeat'
 
 " plugin to extend fzf's vim capabilities
-Plugin 'junegunn/fzf.vim'
+Plug 'junegunn/fzf.vim'
 "
 " plugin to add git commands to vim
-Plugin 'tpope/vim-fugitive'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-rhubarb'
 
-call vundle#end()
-filetype plugin indent on
-" VUNDLE BS END
+" plugin for pairing delimeters
+Plug 'Raimondi/delimitMate'
+
+" distraction free writing
+Plug 'junegunn/goyo.vim'
+Plug 'junegunn/limelight.vim'
+
+" smooth scrolling
+Plug 'psliwka/vim-smoothie'
+
+" Initialize plugin system
+call plug#end()
+" Done vim-plug
 
 " vim-tmux-navigator config
 
@@ -79,7 +85,7 @@ set t_Co=256
 " for ALE linting plugin
 let g:ale_linters = {
 \   'cpp': ['g++'],
-\   'python': ['flake8'],
+\   'python': ['pylint', 'flake8'],
 \   'javascript': ['eslint'],
 \   'html': ['tidy'],
 \}
@@ -91,6 +97,7 @@ let g:ale_fixers = {
 \}
 
 let g:ale_sign_column_always = 1
+let g:airline#extensions#ale#enabled = 1
 
 " shortcut for ctags navigator plugin
 nnoremap <NUL> :TagbarToggle<CR>
@@ -100,7 +107,7 @@ let g:tagbar_autofocus = 1
 set ruler
 
 " sets line at col 80
-" set colorcolumn=80
+set colorcolumn=80
 
 let g:indentLine_enabled = 1
 
@@ -119,7 +126,7 @@ function! SearchWithSkip(pattern, flags, stopline, timeout, skip)
 " Mimics the built-in search() function, but adds a {skip} expression
 " like that available in searchpair() and searchpairpos().
 " (See the Vim help on search() for details of the other parameters.)
-" 
+"
     " Note the current position, so that if there are no unskipped
     " matches, the cursor can be restored to this location.
     "
@@ -138,7 +145,7 @@ function! SearchWithSkip(pattern, flags, stopline, timeout, skip)
         " If we get here, {pattern} was found and {skip} is false,
         " so this is a match we don't want to ignore. Update the
         " match position and stop searching.
-        " 
+        "
         let l:matchpos = getpos('.')
         break
 
@@ -205,3 +212,20 @@ set undodir=~/HOME/undodir
 
 " comment while keeping indentation
 let g:NERDDefaultAlign = 'left'
+
+" 80 character limit
+set textwidth=80
+
+" Goyo and Limelight integration
+autocmd! User GoyoEnter Limelight
+autocmd! User GoyoLeave Limelight!
+
+" Allows mouse to work past 223rd column
+if has("mouse_sgr")
+    set ttymouse=sgr
+else
+    set ttymouse=xterm2
+end
+
+" prevent locking up large files with syntax checking
+autocmd BufWinEnter * if line2byte(line("$") + 1) > 1000000 | syntax clear | endif
